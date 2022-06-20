@@ -37,6 +37,7 @@ triggers {
         //Excute SonarQube Report
         stage('Excute Sonarqube Report'){
             steps{
+            sendslacknotification('STARTED')
                 sh "mvn sonar:sonar"
             }
         }
