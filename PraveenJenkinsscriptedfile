@@ -21,16 +21,6 @@ stage('Build')
 sh "${mavenHome}/bin/mvn clean package"
 
 }
-} //try tag closing
-catch (e){
-currentBuild.result = "FAILED"
-throw e
-}//catch tag closing
-finally{
-sendslacknotification ('currentBuild.result')
-}//finally tag closing 
-
-
 
 /*
 stage('Execute SonarQube Report')
@@ -55,7 +45,14 @@ sshagent(['38916e58-b1eb-4258-9024-acc988cdba35']) {
 }
 }
 */
-
+} catch (e){
+currentBuild.result = "FAILED"
+  throw e
+  }
+  finally {
+    
+    sendslacknotification(currentBuild.result)
+  }
 
 
 }//node closing tag
