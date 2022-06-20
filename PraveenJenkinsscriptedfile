@@ -10,6 +10,7 @@ echo "Job Name is: ${env.JOB_NAME}"
 echo "Node Name is:${env.NODE_NAME}"
 
 try{
+sendslacknotification("STARTED")
 stage('Checkout Code')
 {
 git branch: 'development', credentialsId: '6800f1a1-2245-40f0-8040-e84a4b88cd43', url: 'https://github.com/praveen-devops-batch/maven-web-application.git'
@@ -81,7 +82,7 @@ def sendslacknotification(String buildStatus = 'STARTED') {
   }
 
   // Send notifications
-  slackSend (color: colorCode, message: summary)
+  slackSend (color: colorCode, message: summary, chaneel: 'pipeline-scriptedway')
 }
 
 
