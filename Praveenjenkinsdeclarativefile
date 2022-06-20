@@ -21,6 +21,7 @@ triggers {
         //Check Out Code 
         stage('CheckOut Code'){
             steps{
+            sendslacknotification("STARTED")
                 git branch: 'development', credentialsId: '6800f1a1-2245-40f0-8040-e84a4b88cd43', url: 'https://github.com/praveen-devops-batch/maven-web-application.git'
             }
         }
@@ -37,7 +38,6 @@ triggers {
         //Excute SonarQube Report
         stage('Excute Sonarqube Report'){
             steps{
-            sendslacknotification('STARTED')
                 sh "mvn sonar:sonar"
             }
         }
