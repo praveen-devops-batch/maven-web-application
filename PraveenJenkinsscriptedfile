@@ -9,7 +9,7 @@ echo "Build Display Name is: ${env.BUILD_DISPLAY_NAME}"
 echo "Job Name is: ${env.JOB_NAME}"
 echo "Node Name is:${env.NODE_NAME}"
 
-
+try{
 stage('Checkout Code')
 {
 git branch: 'development', credentialsId: '6800f1a1-2245-40f0-8040-e84a4b88cd43', url: 'https://github.com/praveen-devops-batch/maven-web-application.git'
@@ -21,7 +21,18 @@ stage('Build')
 sh "${mavenHome}/bin/mvn clean package"
 
 }
+} //try tag closing
+catch (e){
+currentBuild.result= "FAILED"
+throw e
+}//catch tag closing
+finally{
+sendslacknotification('currentBuild')
+}//finally tag closing 
 
+
+
+/*
 stage('Execute SonarQube Report')
 {
 sh "${mavenHome}/bin/mvn sonar:sonar"
@@ -43,6 +54,34 @@ sshagent(['38916e58-b1eb-4258-9024-acc988cdba35']) {
 
 }
 }
+*/
 
+}//node closing tag
 
+//Below code will be send slack notification
+
+def sendslacknotification(String buildStatus = 'STARTED') {
+  // build status of null means successful
+  buildStatus =  buildStatus ?: 'SUCCESS'
+
+  // Default values
+  def colorName = 'RED'
+  def colorCode = '#FF0000'
+  def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+  def summary = "${subject} (${env.BUILD_URL})"
+
+  // Override default values based on build status
+  if (buildStatus == 'STARTED') {
+    color = 'YELLOW'
+    colorCode = '#FFFF00'
+  } else if (buildStatus == 'SUCCESS   ') {
+    color = 'GREEN'
+    colorCode = '#00FF00'
+  } else {
+    color = 'RED'
+    colorCode = '#FF0000'
+  }
+
+  // Send notifications
+  slackSend (color: colorCode, message: summary)
 }
