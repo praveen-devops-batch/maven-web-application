@@ -66,10 +66,10 @@ triggers {
     post {
        
        success {
-           slackslacknotification('SUCCESS')
+           sendslacknotification('SUCCESS')
        }
        failure {
-           slacksendnotification('FAILURE')
+           sendslacknotification('FAILURE')
        }
         }
     
