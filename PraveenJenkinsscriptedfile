@@ -27,7 +27,7 @@ currentBuild.result= "FAILED"
 throw e
 }//catch tag closing
 finally{
-sendslacknotification('currentBuild')
+sendslacknotification('currentBuild.result')
 }//finally tag closing 
 
 
