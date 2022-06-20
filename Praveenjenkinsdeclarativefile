@@ -60,7 +60,10 @@ triggers {
         }
         
         */
-        post {
+        
+        
+    }//stages closing
+    post {
        
        success {
            slackslacknotification('SUCCESS')
@@ -69,8 +72,7 @@ triggers {
            slacksendnotification('FAILURE')
        }
         }
-        
-    }//stages closing
+    
 }//pipeline closing
 def sendslacknotification(String buildStatus = 'STARTED') {
   // build status of null means successful
