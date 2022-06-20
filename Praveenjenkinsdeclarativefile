@@ -1,0 +1,61 @@
+pipeline{
+    
+    
+    agent any
+    
+    tools {
+  maven 'maven3.8.5'
+}
+
+options {
+  buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '3', daysToKeepStr: '', numToKeepStr: '4')
+  timestamps()
+}
+triggers {
+  pollSCM ('* * * * *')
+}
+
+    
+    stages{
+        
+        //Check Out Code 
+        stage('CheckOut Code'){
+            steps{
+                git branch: 'development', credentialsId: '6800f1a1-2245-40f0-8040-e84a4b88cd43', url: 'https://github.com/praveen-devops-batch/maven-web-application.git'
+            }
+        }
+        
+        //Building The Package
+        stage('Build'){
+            steps{
+                sh "mvn clean package"
+            }
+        }
+        
+        //Excute SonarQube Report
+        stage('Excute Sonarqube Report'){
+            steps{
+                sh "mvn sonar:sonar"
+            }
+        }
+        
+        //Upload Artifact Into Artifactory Repository
+        stage('Upload Artficat Into Nexus'){
+            steps{
+                sh "mvn deploy"
+            }
+        }
+        
+        //Deploy Application Into TomCat Server
+        stage('Deploy App Into Tomcat Server'){
+            steps{
+                sshagent(['db07dc23-c600-46a4-85ea-778ef7372a7f']) {
+                    
+            sh "scp -o  StrictHostKeyChecking=no target/maven-web-application.war ec2-user@172.31.0.213:/opt/apache-tomcat-9.0.63/webapps/"
+    
+                            }
+            }
+        }
+        
+    }//stages closing
+}//pipeline closing
