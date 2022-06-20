@@ -49,8 +49,7 @@ sshagent(['38916e58-b1eb-4258-9024-acc988cdba35']) {
 currentBuild.result = "FAILED"
   throw e
   }
-  finally {
-    
+  finally { 
     sendslacknotification(currentBuild.result)
   }
 
