@@ -82,7 +82,7 @@ def sendslacknotification(String buildStatus = 'STARTED') {
   }
 
   // Send notifications
-  slackSend (color: colorCode, message: summary, chaneel: 'pipeline-scriptedway')
+  slackSend (color: colorCode, message: summary, chaneel: 'pipeline-scriptedway') 
 }
 
 
