@@ -31,7 +31,7 @@ properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKe
      throw e
      }
      finally {
-     sendslacknotifications('currentBuild.result')
+     sendslacknotifications(currentBuild.result)
      }
     
     /*
