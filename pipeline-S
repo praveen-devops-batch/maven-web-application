@@ -31,7 +31,7 @@ properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKe
      throw e
      }
      finally {
-     sendslacknotification('currentBuild.result')
+     sendslacknotifications('currentBuild.result')
      }
     
     /*
@@ -79,4 +79,5 @@ def sendslacknotifications(String buildStatus = 'STARTED') {
 
   // Send notifications
   slackSend (color: colorCode, message: summary, channel: 'facebook-dev')
+}
 
