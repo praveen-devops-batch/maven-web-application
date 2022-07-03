@@ -32,6 +32,7 @@ properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKe
      }
      finally {
      sendslacknotification('currentBuild.result')
+     }
     
     /*
     //Execute SonarQube Report
@@ -78,4 +79,4 @@ def sendslacknotifications(String buildStatus = 'STARTED') {
 
   // Send notifications
   slackSend (color: colorCode, message: summary, channel: 'facebook-dev')
-}
+
