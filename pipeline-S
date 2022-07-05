@@ -25,11 +25,11 @@ properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKe
     stage('Build Package'){
         sh "${mavenHome}/bin/mvn clean package"
     }
-    
+    /*
     stage('Trigger Download Jobs'){
     build job: "pipeline-declarativeway"
     }
-    
+    */
     } catch (e){
      currentBuild.result= "FAILED"
      throw e
