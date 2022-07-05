@@ -21,7 +21,7 @@ options {
         // Check Out code stage
         stage ('Check Out code'){
             steps {
-                sendslacknotifications("STARTED")
+                sendSlackNotifications("STARTED")
                 git branch: 'development', credentialsId: 'c909c5f3-aa38-4781-b123-659ff2120203', url: 'https://github.com/praveen-devops-batch/maven-web-application.git'
                 
             }
@@ -62,10 +62,10 @@ options {
     
     post {
   success {
-    sendslacknotifications("SUCCESS")
+    sendSlackNotifications("SUCCESS")
   }
   failure {
-    sendslacknotifications("FAILURE")
+    sendSlackNotifications("FAILURE")
   }
 }
 }// pipeline closing tag
